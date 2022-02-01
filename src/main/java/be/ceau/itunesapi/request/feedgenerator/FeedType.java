@@ -24,6 +24,8 @@ import be.ceau.itunesapi.FeedGenerator;
  */
 public enum FeedType {
 
+	PODCAST("podcasts"),
+	PODCAST_EPISODES("podcast-episodes"),
 	TOP_AUDIOBOOKS("top-audiobooks"),
 	TOP_PAID("top-paid"),
 	TOP_FREE("top-free"),

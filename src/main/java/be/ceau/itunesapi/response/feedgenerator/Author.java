@@ -25,7 +25,7 @@ public class Author implements Serializable {
 	private static final long serialVersionUID = 1501415280761L;
 
 	private String name;
-	private String uri;
+	private String url;
 
 	public String getName() {
 		return name;
@@ -35,12 +35,12 @@ public class Author implements Serializable {
 		this.name = name;
 	}
 
-	public String getUri() {
-		return uri;
+	public String getUrl() {
+		return url;
 	}
 
-	public void setUri(String uri) {
-		this.uri = uri;
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class Author implements Serializable {
 				.append("Author [name=")
 				.append(name)
 				.append(", uri=")
-				.append(uri)
+				.append(url)
 				.append("]")
 				.toString();
 	}

@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Locale;
 
+import be.ceau.itunesapi.request.feedgenerator.ChartType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,8 +45,11 @@ public class FeedGenerator implements Serializable {
 	private static final long serialVersionUID = 1501610083087L;
 
 	private static final String API_ENDPOINT = "https://rss.itunes.apple.com/api/v1/";
+	private static final String API_ENDPOINT_V2 = "https://rss.applemarketingtools.com/api/v2/";
 
 	private Country country = Country.UNITED_STATES;
+
+	private ChartType chartType = ChartType.TOP;
 
 	private MediaType mediaType = MediaType.APPLE_MUSIC;
 
@@ -68,6 +72,22 @@ public class FeedGenerator implements Serializable {
 	 */
 	public String getUrl() {
 		return new StringBuilder()
+				.append(API_ENDPOINT_V2)
+				.append(country.getIso().toLowerCase(Locale.ENGLISH))
+				.append('/')
+				.append(mediaType.getCode())
+				.append('/')
+				.append(chartType.getCode())
+				.append('/')
+				.append(resultsLimit)
+				.append('/')
+				.append(feedType.getCode())
+				.append('.')
+				.append(format.getCode())
+				.toString();
+	}
+/*	public String getUrl() {
+		return new StringBuilder()
 				.append(API_ENDPOINT)
 				.append(country.getIso().toLowerCase(Locale.ENGLISH))
 				.append('/')
@@ -83,7 +103,7 @@ public class FeedGenerator implements Serializable {
 				.append('.')
 				.append(format.getCode())
 				.toString();
-	}
+	}*/
 
 	/**
 	 * Queries iTunes using the current state of this {@link FeedGenerator}
@@ -164,6 +184,18 @@ public class FeedGenerator implements Serializable {
 		}
 		this.mediaType = mediaType;
 		setFeedType(mediaType.getCompatibleFeedTypes().iterator().next());
+		return this;
+	}
+
+	public ChartType getChartType() {
+		return chartType;
+	}
+
+	public FeedGenerator setChartType(ChartType chartType) {
+		if (mediaType == null) {
+			throw new IllegalArgumentException("mediaType must be specified");
+		}
+		this.chartType = chartType;
 		return this;
 	}
 
