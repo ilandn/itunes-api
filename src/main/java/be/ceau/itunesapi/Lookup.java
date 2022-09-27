@@ -22,6 +22,7 @@ import be.ceau.itunesapi.request.Entity;
 import be.ceau.itunesapi.request.lookup.Sort;
 import be.ceau.itunesapi.request.search.Media;
 import be.ceau.itunesapi.response.Response;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -104,6 +105,9 @@ public class Lookup implements Serializable {
             String url = build();
             String response = connector.get(url);
             logger.trace("{} -> {}", url, response);
+            if (entity != null && entity.equals(Entity.PODCAST_EPISODE)){
+                return new Response(new JSONObject(response));
+            }
             return Response.READER.readValue(response);
         } catch (IOException e) {
             throw new RuntimeException(e);

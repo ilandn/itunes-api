@@ -15,13 +15,14 @@
 */
 package be.ceau.itunesapi.response;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Full iTunes Search or Lookup response
@@ -29,46 +30,63 @@ import com.fasterxml.jackson.databind.ObjectReader;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Response implements Serializable {
 
-	private static final long serialVersionUID = 1476515585834L;
+    private static final long serialVersionUID = 1476515585834L;
 
-	/**
-	 * Reusable, threadsafe {@link ObjectReader} instance for deserializing
-	 * iTunes response into {@link Response} instance.
-	 */
-	public static final ObjectReader READER = new ObjectMapper().readerFor(Response.class);
+    /**
+     * Reusable, threadsafe {@link ObjectReader} instance for deserializing
+     * iTunes response into {@link Response} instance.
+     */
+    public static final ObjectReader READER = new ObjectMapper().readerFor(Response.class);
 
-	private int resultCount;
-	
-	private final List<Result> results = new ArrayList<>();
+    private int resultCount;
 
-	/**
-	 * @return the number of results in this {@link Response}
-	 */
-	public int getResultCount() {
-		return resultCount;
-	}
+    private JSONObject jsonResult;
 
-	public void setResultCount(int resultCount) {
-		this.resultCount = resultCount;
+    private final List<Result> results = new ArrayList<>();
+
+    public Response() {
+    }
+
+    public Response(JSONObject jsonResult) {
+		this.jsonResult = jsonResult;
 	}
 
 	/**
-	 * @return modifiable {@link List} of {@link Result} instances, never {@code null}
-	 */
-	public List<Result> getResults() {
-		return results;
-	}
+     * @return the number of results in this {@link Response}
+     */
+    public int getResultCount() {
+        return resultCount;
+    }
 
-	public void setResults(List<Result> results) {
-		this.results.clear();
-		if (results != null) {
-			this.results.addAll(results);
-		}
-	}
+    public void setResultCount(int resultCount) {
+        this.resultCount = resultCount;
+    }
 
-	@Override
-	public String toString() {
-		return "Response [resultCount=" + resultCount + ", results=" + results + "]";
-	}
-	
+    /**
+     * @return modifiable {@link List} of {@link Result} instances, never {@code null}
+     */
+    public List<Result> getResults() {
+        return results;
+    }
+
+    public void setResults(List<Result> results) {
+        this.results.clear();
+        if (results != null) {
+            this.results.addAll(results);
+        }
+    }
+
+    public JSONObject getJsonResult() {
+        return jsonResult;
+    }
+
+    public void setJsonResult(JSONObject jsonResult) {
+        this.jsonResult = jsonResult;
+    }
+
+    @Override
+    public String toString() {
+        return "Response [resultCount=" + resultCount + ", results=" + results + "]";
+    }
+
 }
