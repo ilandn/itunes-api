@@ -42,6 +42,7 @@ public class URLConnector implements Connector, Serializable {
         URL url = new URL(link);
         URLConnection urlConn = url.openConnection();
         urlConn.setConnectTimeout(45 * 1000);
+        urlConn.setReadTimeout((45 * 1000));
 
         try (InputStream is = urlConn.getInputStream();
              InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
